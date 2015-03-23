@@ -91,7 +91,7 @@
 実際はもう少し無駄が無いように工夫したり、必要のない処理については行わなければ良いだろう。
 
 
-### Ruby (written by @kimoto)
+### Ruby (written by id:kimoto)
 
 #### インストールしておくもの
 
