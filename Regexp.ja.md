@@ -126,6 +126,7 @@
             $norm =~ s|$choon_reg|ー|g;
             my $chil_reg = '(?:~|∼|∾|〜|〰|～)';
             $norm =~ s|$chil_reg||g;
+            $norm =~ s|[ー]+|ー|g;
             $norm =~ tr/!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~｡､･｢｣/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」/;
             $norm =~ s|　| |g;
             $norm =~ s| {1,}| |g;
@@ -140,7 +141,7 @@
             while ($norm =~ m|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|) {
                 $norm =~ s|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|$1$2|g;
             }
-            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜/!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~/;
+            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜/!"#$%&'()*+,-.\/:;<>?@[\]^_`{|}~/;
         }
         return $norm;
     }
