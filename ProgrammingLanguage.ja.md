@@ -75,9 +75,25 @@
 
 ## R
 
+### 事前準備
+
+RMeCab の dic 引数に与えることができるのはユーザ辞書のパスです。
+
+まずは以下のコマンドでインストールついでにユーザ辞書を作ります。
+
+     $ ./bin/install-mecab-ipadic-neologd --create_user_dic
+
+ユーザ辞書は標準では以下の位置に作成されます。
+
+     ./build/mecab-ipadic-2.7.0-20070801-neologd-YYYYMMDD/mecab-user-dict-seed.YYYYMMDD.csv.dic
+
+この mecab-user-dict-seed.YYYYMMDD.csv.dic に対するパスを以下の様に dic 引数で指定します。
+
+### サンプルコード
+
      library(RMeCab)
      input <- "すもももももももものうち"
-     res <- RMeCabC(input, dic = "/usr/local/lib/mecab/dic/mecab-ipadic-neologd/")
+     res <- RMeCabC(input, dic = "/path/to/user/dic/mecab-user-dict-seed.YYYYMMDD.csv.dic")
      res
 
 ## Java
