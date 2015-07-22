@@ -137,7 +137,7 @@
             return {ord(x): ord(y) for x, y in zip(f, t)}
 
         s = s.translate(
-            maketrans('!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~｡､･｢｣',
+            maketrans('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~｡､･｢｣',
                       '！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」'))
         s = re.sub('[˗֊‐‑‒–⁃⁻₋−]+', '-', s)  # normalize hyphens
         s = re.sub('[﹣－ｰ—―─━ー]+', 'ー', s)  # normalize choonpus
@@ -196,7 +196,7 @@
       chil_reg = /(?:~|∼|∾|〜|〰|～)/
       norm.gsub!(chil_reg, '')
       norm.gsub!(/[ー]+/, "ー")
-      norm.tr!(%q{!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~｡､･｢｣"}, %q{！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」})
+      norm.tr!(%q{!"#$%&'()*+,-.\/:;<=>?@[\\]^_`{|}~｡､･｢｣"}, %q{！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」})
       norm.gsub!(/　/, " ")
       norm.gsub!(/ {1,}/, " ")
       norm.gsub!(/^[ ]+(.+?)$/, "\\1")
@@ -212,7 +212,7 @@
       end
       norm.tr!(
         %q{！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜},
-        %q{!"#$%&'()*+,-.\/:;<>?@[\]^_`{|}~}
+        %q{!"#$%&'()*+,-.\/:;<>?@[\\]^_`{|}~}
       )
       norm
     end
@@ -281,7 +281,7 @@
             my $chil_reg = '(?:~|∼|∾|〜|〰|～)';
             $norm =~ s|$chil_reg||g;
             $norm =~ s|[ー]+|ー|g;
-            $norm =~ tr/!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~｡､･｢｣/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」/;
+            $norm =~ tr/!"#$%&'()*+,-.\/:;<=>?@[\\]^_`{|}~｡､･｢｣/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」/;
             $norm =~ s|　| |g;
             $norm =~ s| {1,}| |g;
             $norm =~ s|^[ ]+(.+?)$|$1|g;
@@ -295,7 +295,7 @@
             while ($norm =~ m|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|) {
                 $norm =~ s|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|$1$2|g;
             }
-            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜/!"#$%&'()*+,-.\/:;<>?@[\]^_`{|}~/;
+            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜/!"#$%&'()*+,-.\/:;<>?@[\\]^_`{|}~/;
         }
         return $norm;
     }
