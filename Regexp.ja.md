@@ -59,11 +59,11 @@
 
 ### 以下の全角記号は半角記号に置換
 
-- /！”＃＄％＆’（）＊＋，−．／：；＝＞？＠［￥］＾＿｀｛｜｝〜。、
+- /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝
 
 ### 以下の半角記号は全角記号に置換
 
-- ･=｢｣
+- ｡､･=｢｣
     - 中黒とイコールは人名によく使われるので、半角にするのが難しい。
     - カギ括弧はおもに全角が使われる
 
@@ -131,23 +131,29 @@
 
     def normalize_neologd(s):
         s = s.strip()
-        s = unicode_normalize('０−９Ａ-Ｚａ-ｚ｡-ﾟ', s)
+        s = unicode_normalize('０-９Ａ-Ｚａ-ｚ｡-ﾟ', s)
 
         def maketrans(f, t):
             return {ord(x): ord(y) for x, y in zip(f, t)}
 
         s = s.translate(
-            maketrans('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~｡､･｢｣',
-                      '！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」'))
+            maketrans('!"#$%&\'()*+,-./:;<=>?@[¥]^_`{|}~｡､･｢｣',
+                  '！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」'))
         s = re.sub('[˗֊‐‑‒–⁃⁻₋−]+', '-', s)  # normalize hyphens
         s = re.sub('[﹣－ｰ—―─━ー]+', 'ー', s)  # normalize choonpus
         s = re.sub('[~∼∾〜〰～]', '', s)  # remove tildes
         s = remove_extra_spaces(s)
         s = unicode_normalize('！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜', s)  # keep ＝,・,「,」
+        s = re.sub('[’]', '\'', s)
+        s = re.sub('[”]', '"', s)
         return s
 
     if __name__ == "__main__":
-        assert "0" == normalize_neologd("０")
+        assert "0123456789" == normalize_neologd("０１２３４５６７８９")
+        assert "ABCDEFGHIJKLMNOPQRSTUVWXYZ" == normalize_neologd("ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ")
+        assert "abcdefghijklmnopqrstuvwxyz" == normalize_neologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ")
+        assert "!\"#$%&'()*+,-./:;<>?@[¥]^_`{|}" == normalize_neologd("！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝")
+        assert "＝。、・「」" == normalize_neologd("＝。、・「」")
         assert "ハンカク" == normalize_neologd("ﾊﾝｶｸ")
         assert "o-o" == normalize_neologd("o₋o")
         assert "majikaー" == normalize_neologd("majika━")
