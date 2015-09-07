@@ -90,7 +90,7 @@
 
 実際はもう少し無駄が無いように工夫したり、必要のない処理については行わなければ良いだろう。
 
-### Python (written by [hideaki-t](https://github.com/hideaki-t))
+### Python (written by [hideaki-t](https://github.com/hideaki-t) & overlast)
 
 #### コード例 : normalize_neologd.py (python v3.4.1 で動作確認)
 
@@ -172,7 +172,7 @@
         assert "南アルプスの天然水Sparking Lemonレモン一絞り" == \
             normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り")
 
-### Ruby (written by [kimoto](https://github.com/kimoto))
+### Ruby (written by [kimoto](https://github.com/kimoto) and overlast)
 
 #### インストールしておくもの
 
