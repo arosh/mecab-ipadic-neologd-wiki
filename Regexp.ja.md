@@ -171,8 +171,6 @@
         assert "Coding the Matrix" == normalize_neologd("Coding the Matrix")
         assert "南アルプスの天然水Sparking Lemonレモン一絞り" == \
             normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り")
-        assert "南アルプスの天然水- Sparking*Lemon+レモン一絞り" == \
-            normalize_neologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り")
 
 ### Ruby (written by [kimoto](https://github.com/kimoto))
 
