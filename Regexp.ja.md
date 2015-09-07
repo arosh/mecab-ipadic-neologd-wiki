@@ -92,7 +92,7 @@
 
 ### Python (written by [hideaki-t](https://github.com/hideaki-t))
 
-#### コード例 : normalize_neologd.py
+#### コード例 : normalize_neologd.py (python v3.4.1 で動作確認)
 
     # encoding: utf8
     from __future__ import unicode_literals
@@ -186,7 +186,7 @@
 
     http://gimite.net/gimite/rubymess/moji.html
 
-#### コード例 : normalize_neologd.rb
+#### コード例 : normalize_neologd.rb (ruby v2.2.3 で動作確認)
 
     require 'moji'
 
@@ -200,13 +200,13 @@
       chil_reg = /(?:~|∼|∾|〜|〰|～)/
       norm.gsub!(chil_reg, '')
       norm.gsub!(/[ー]+/, "ー")
-      norm.tr!(%q{!"#$%&'()*+,-.\/:;<=>?@[\\]^_`{|}~｡､･｢｣"}, %q{！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」})
+      norm.tr!(%q{!"#$%&'()*+,-.\/:;<=>?@[¥]^_`{|}~｡､･｢｣"}, %q{！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」})
       norm.gsub!(/　/, " ")
       norm.gsub!(/ {1,}/, " ")
       norm.gsub!(/^[ ]+(.+?)$/, "\\1")
       norm.gsub!(/^(.+?)[ ]+$/, "\\1")
-      while norm =~ %r{([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)}
-        norm.gsub!( %r{([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)}, "\\1\\2")
+      while norm =~ %r{([\p{InCjkUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)[ ]{1}([\p{InCjkUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)}
+        norm.gsub!( %r{([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)}, "\\1\\2")
       end
       while norm =~ %r{([\p{InBasicLatin}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)}
         norm.gsub!(%r{([\p{InBasicLatin}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)}, "\\1\\2")
@@ -216,7 +216,7 @@
       end
       norm.tr!(
         %q{！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜},
-        %q{!"#$%&'()*+,-.\/:;<>?@[\\]^_`{|}~}
+        %q{!"#$%&'()*+,-.\/:;<>?@[¥]^_`{|}~}
       )
       norm
     end
@@ -229,7 +229,11 @@
           raise "Failed: Want #{expect.inspect} but #{actual.inspect}"
         end
       end
-      assert "0", normalize_neologd("０")
+      assert "0123456789", normalize_neologd("０１２３４５６７８９")
+      assert "ABCDEFGHIJKLMNOPQRSTUVWXYZ", normalize_neologd("ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ")
+      assert "abcdefghijklmnopqrstuvwxyz", normalize_neologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ")
+      assert "!\"\#$\%&'()*+,-./:;<>?@[¥]^_`{|}", normalize_neologd("！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝")
+      assert "＝。、・「」", normalize_neologd("＝。、・「」")
       assert "ハンカク", normalize_neologd("ﾊﾝｶｸ")
       assert "o-o", normalize_neologd("o₋o")
       assert "majikaー", normalize_neologd("majika━")
@@ -285,13 +289,13 @@
             my $chil_reg = '(?:~|∼|∾|〜|〰|～)';
             $norm =~ s|$chil_reg||g;
             $norm =~ s|[ー]+|ー|g;
-            $norm =~ tr/!"#$%&'()*+,-.\/:;<=>?@[\\]^_`{|}~｡､･｢｣/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」/;
+            $norm =~ tr/!"#$%&'()*+,-.\/:;<=>?@[¥]^_`{|}~｡､･｢｣/！”＃＄％＆’（）＊＋，−．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」/;
             $norm =~ s|　| |g;
             $norm =~ s| {1,}| |g;
             $norm =~ s|^[ ]+(.+?)$|$1|g;
             $norm =~ s|^(.+?)[ ]+$|$1|g;
-            while ($norm =~ m|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)|) {
-                $norm =~ s|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)|$1$2|g;
+            while ($norm =~ m|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)|) {
+                $norm =~ s|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+?)|$1$2|g;
             }
             while ($norm =~ m|([\p{InBasicLatin}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)|) {
                 $norm =~ s|([\p{InBasicLatin}]+)[ ]{1}([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)|$1$2|g;
@@ -299,8 +303,8 @@
             while ($norm =~ m|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|) {
                 $norm =~ s|([\p{InCJKUnifiedIdeographs}\p{InHiragana}\p{InKatakana}\p{InHalfwidthAndFullwidthForms}\p{InCJKSymbolsAndPunctuation}]+)[ ]{1}([\p{InBasicLatin}]+)|$1$2|g;
             }
-            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝〜/!"#$%&'()*+,-.\/:;<>?@[\\]^_`{|}~/;
-        }
+            $norm =~ tr/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝/!"#$%&'()*+,-.\/:;<>?@[¥]^_`{|}/;
+       }
         return $norm;
     }
 
