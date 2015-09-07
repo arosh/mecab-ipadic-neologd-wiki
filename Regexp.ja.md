@@ -131,7 +131,7 @@
 
     def normalize_neologd(s):
         s = s.strip()
-        s = unicode_normalize('０−９Ａ-Ｚａ-ｚ｡-ﾟ', s)
+        s = unicode_normalize('０-９Ａ-Ｚａ-ｚ｡-ﾟ', s)
 
         def maketrans(f, t):
             return {ord(x): ord(y) for x, y in zip(f, t)}
@@ -167,6 +167,7 @@
             normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り")
         assert "南アルプスの天然水- Sparking*Lemon+レモン一絞り" == \
             normalize_neologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り")
+        assert "10日" == normalize_neologd("１０日")
 
 ### Ruby (written by [kimoto](https://github.com/kimoto))
 
